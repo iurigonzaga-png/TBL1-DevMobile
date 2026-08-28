@@ -94,3 +94,6 @@ class Tela2 extends StatelessWidget {
     );
   }
 }
+// 1- Para garantir que a tela receba os dados necessários exatamente no momento em que é criada, de forma segura e obrigatória. Isso elimina a necessidade de usar variáveis globais e previne erros de dados nulos durante a construção da interface.
+// 2- Porque ela tem apenas a função de receber a informação e exibi-la. Como ela não precisa modificar esse dado, reagir a cliques para atualizar a própria interface ou gerenciar qualquer estado interno ao longo do tempo, um StatelessWidget é o ideal.
+// 3- Não. Em um StatelessWidget, as variáveis recebidas via construtor devem ser declaradas como final, o que as torna imutáveis. Depois que a tela é instanciada com aquele dado, ele não pode mais ser alterado.
