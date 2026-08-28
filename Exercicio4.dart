@@ -119,3 +119,8 @@ class _Tela2State extends State<Tela2> {
     );
   }
 }
+
+// 1- O Flutter vai abrir a próxima tela e, milissegundos depois, já vai tentar ler a variável resultadoDaConfirmacao e executar as próximas linhas de código. Como a tela mal abriu e o usuário não teve tempo de digitar ou confirmar nada, não existe resultado nenhum.
+// 2- No Dart, a palavra await é dependente do async. A regra da linguagem é estrita: você só pode pedir para o código "esperar" (await) se você avisar o compilador antes de que aquela função tem o poder de trabalhar fora de sincronia (async). Se você remover o async, a palavra await passa a ser considerada um erro e o app nem roda.
+// 3- No Dart, um Future é um objeto que representa uma promessa de que uma operação será concluída no futuro, seja com sucesso (devolvendo um valor) ou com falha (devolvendo um erro).
+// 4- O valor prometido só "aterrisa" de volta na variável (e o código que estava esperando no await volta a rodar) exatamente no milissegundo em que ocorre o Navigator.pop(context, valor) na tela que estava no topo.
