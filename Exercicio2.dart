@@ -10,11 +10,11 @@ class MeuApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Passagem de Dados',
+      title: 'Navegação com Retorno',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Tela1(), 
+      home: const Tela1(),
     );
   }
 }
@@ -24,13 +24,9 @@ class Tela1 extends StatefulWidget {
   @override
   State<Tela1> createState() => _Tela1State();
 }
- class _Tela1State extends State<Tela1> {
-  final TextEditingController _nomeController = TextEditingController();
-  @override
-  void dispose() {
-    _nomeController.dispose();
-    super.dispose();
-  }
+
+class _Tela1State extends State<Tela1> {
+  int _valorAtual = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,36 +34,29 @@ class Tela1 extends StatefulWidget {
       appBar: AppBar(
         title: const Text('Tela 1'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _nomeController,
-              decoration: const InputDecoration(
-                labelText: 'Digite seu nome',
-                border: OutlineInputBorder(),
-              ),
+            Text(
+              'Valor atual: $_valorAtual',
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                String nomeDigitado = _nomeController.text;
-                if (nomeDigitado.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Tela2(nome: nomeDigitado),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Por favor, digite um nome!')),
-                  );
+              onPressed: () async {
+                final resultado = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Tela2()),
+                );
+
+                if (resultado != null) {
+                  setState(() {
+                    _valorAtual = resultado;
+                  });
                 }
               },
-              child: const Text('Enviar Nome'),
+              child: const Text('Escolher Número'),
             ),
           ],
         ),
@@ -76,8 +65,7 @@ class Tela1 extends StatefulWidget {
   }
 }
 class Tela2 extends StatelessWidget {
-  final String nome;
-  const Tela2({super.key, required this.nome});
+  const Tela2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +74,22 @@ class Tela2 extends StatelessWidget {
         title: const Text('Tela 2'),
       ),
       body: Center(
-        child: Text(
-          'Olá, $nome',
-          style: const TextStyle(fontSize: 24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, 10);
+              },
+              child: const Text('Enviar 10'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, 20);
+              },
+              child: const Text('Enviar 20'),
+            ),
+          ],
         ),
       ),
     );
